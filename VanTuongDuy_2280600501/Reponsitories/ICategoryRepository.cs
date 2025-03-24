@@ -9,5 +9,6 @@ namespace VanTuongDuy_2280600501.Reponsitories
         Task AddAsync(Category category);
         Task UpdateAsync(Category category);
         Task DeleteAsync(int id);
+        dynamic GetAllCategories();
     }
 }

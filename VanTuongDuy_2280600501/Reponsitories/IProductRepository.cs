@@ -11,5 +11,10 @@ namespace VanTuongDuy_2280600501.Reponsitories
         Task DeleteAsync(int id);
         Task<string?> GetAllWithCategoryAsync();
         Task<string?> GetAllWithCategoriesAsync();
+        string? GetAllProducts();
+        void DeleteProduct(int id);
+        string? GetProductById(int id);
+        void UpdateProduct(Product model);
+        void AddProduct(Product model);
     }
 }

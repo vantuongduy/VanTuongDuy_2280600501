@@ -21,6 +21,12 @@ namespace VanTuongDuy_2280600501.Reponsitories
 
         public async Task<Product> GetByIdAsync(int id)
         {
+            Console.WriteLine($"ID nhận được: {id}");
+            if (id <= 0)
+            {
+                throw new ArgumentException("ID sản phẩm không hợp lệ.");
+            }
+
             var product = await _context.Products.FindAsync(id);
             if (product == null)
             {
@@ -28,6 +34,7 @@ namespace VanTuongDuy_2280600501.Reponsitories
             }
             return product;
         }
+        
 
 
 
@@ -69,6 +76,31 @@ namespace VanTuongDuy_2280600501.Reponsitories
         }
 
         public Task<string?> GetAllWithCategoriesAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public string? GetAllProducts()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteProduct(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string? GetProductById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateProduct(Product model)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AddProduct(Product model)
         {
             throw new NotImplementedException();
         }

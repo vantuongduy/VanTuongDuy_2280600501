@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using VanTuongDuy_2280600501.Models;
 using VanTuongDuy_2280600501.Reponsitories;
 
@@ -48,7 +50,8 @@ namespace VanTuongDuy_2280600501.Controllers
 
         public async Task<IActionResult> Display(int id)
         {
-            Console.WriteLine(id);
+            Console.WriteLine($"ID nhận được: {id}");
+
             if (id <= 0) // Kiểm tra ID hợp lệ
             {
                 return BadRequest("ID sản phẩm không hợp lệ.");
@@ -64,11 +67,16 @@ namespace VanTuongDuy_2280600501.Controllers
         //
         public async Task<IActionResult> Update(int id)
         {
-            Console.WriteLine(id);
+            Console.WriteLine($"ID nhận được: {id}");
+            if (id <= 0)
+            {
+                return BadRequest("ID sản phẩm không hợp lệ.");
+            }
+
             var product = await _productRepository.GetByIdAsync(id);
             if (product == null)
             {
-                return NotFound();
+                return NotFound("Không tìm thấy sản phẩm.");
             }
             var categories = await _categoryRepository.GetAllAsync();
             ViewBag.Categories = new SelectList(categories, "Id", "Name",
@@ -106,6 +114,44 @@ namespace VanTuongDuy_2280600501.Controllers
             await _productRepository.DeleteAsync(id);
             return RedirectToAction(nameof(Index));
         }
-      
+        [HttpPost]
+        public async Task<IActionResult> AddProduct(Product product, IFormFile imageUrl)
+        {
+            if (ModelState.IsValid)
+            {
+                if (imageUrl != null)
+                {
+
+                    product.ImageUrl = await SaveImage(imageUrl);
+                }
+
+               
+                _productRepository.AddProduct(product);
+                return RedirectToAction("Index");
+            }
+
+            return View(product);
+        }
+
+        private async Task<string> SaveImage(IFormFile image)
+        {
+            var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images");
+
+            // Nếu thư mục không tồn tại, tạo mới
+            if (!Directory.Exists(folderPath))
+            {
+                Directory.CreateDirectory(folderPath);
+            }
+
+            var filePath = Path.Combine(folderPath, image.FileName);
+
+            using (var fileStream = new FileStream(filePath, FileMode.Create))
+            {
+                await image.CopyToAsync(fileStream);
+            }
+
+            return "/images/" + image.FileName; // Đường dẫn trả về để hiển thị ảnh
+
+        }
     }
 }

@@ -1,31 +1,45 @@
 ﻿@model IEnumerable<VanTuongDuy_2280600501.Models.Product>
 <h2>Products</h2>
+
+@if (User.IsInRole("Admin"))
+{
+        <a asp-action="Create" class="btn btn-primary">Add Product</a>
+}
+
 <table class="table">
- <thead>
- <tr>
- <th>Name</th>
- <th>Price</th>
- <th>Description</th>
- <th>Category</th>
- <th>Actions</th>
- </tr>
- </thead>
- <tbody>
-		@foreach (var product in Model)
-		{
-	 <tr>
-	 <td>@product.Name</td>
-	 <td>@product.Price</td>
-	 <td>@product.Description</td>
-	 <td>@product.Category?.Name</td>
-		 <td>
-							<img src="@product.ImageUrl" alt="No Image" width="100" height="100"/>
-	 <td>
-	 <a asp-action="Display" asp-routeid="@product.Id">View</a> |
-	 <a asp-action="Update" asp-routeid="@product.Id">Edit</a> |
-	 <a asp-action="Delete" asp-routeid="@product.Id">Delete</a>
-	 </td>
-	 </tr>
-		}
- </tbody>
- </table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Description</th>
+            <th>Category</th>
+            <th>Image</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model)
+        {
+                <tr>
+                    <td>@product.Name</td>
+                    <td>@product.Price</td>
+                    <td>@product.Description</td>
+                    <td>@product.Category?.Name</td>
+                    <td>
+                        <img src="@product.ImageUrl" alt="No Image" width="100" height="100"/>
+                    </td>
+                    <td>
+                        <a asp-action="Display" asp-route-id="@product.Id">View</a>
+
+                    @if (User.IsInRole("Admin"))
+                    {
+                                <span> | </span>
+                                <a asp-action="Update" asp-route-id="@product.Id">Edit</a>
+                                <span> | </span>
+                                <a asp-action="Delete" asp-route-id="@product.Id" onclick="return confirm('Are you sure?')">Delete</a>
+                    }
+                    </td>
+                </tr>
+        }
+    </tbody>
+</table>

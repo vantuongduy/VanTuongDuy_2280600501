@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 using VanTuongDuy_2280600501.Models;
 using VanTuongDuy_2280600501.Reponsitories;
 
@@ -27,7 +28,7 @@ namespace VanTuongDuy_2280600501.Repositories
             }
             return category;
         }
-
+        
         public async Task AddAsync(Category category)
         {
             if (category == null) throw new ArgumentNullException(nameof(category));
@@ -35,7 +36,7 @@ namespace VanTuongDuy_2280600501.Repositories
             await _context.Categories.AddAsync(category);
             await _context.SaveChangesAsync();
         }
-
+        
         public async Task UpdateAsync(Category category)
         {
             var existingCategory = await _context.Categories.FindAsync(category.Id);
@@ -47,7 +48,7 @@ namespace VanTuongDuy_2280600501.Repositories
             _context.Entry(existingCategory).CurrentValues.SetValues(category);
             await _context.SaveChangesAsync();
         }
-
+       
         public async Task DeleteAsync(int id)
         {
             var category = await _context.Categories.FindAsync(id);
@@ -58,6 +59,11 @@ namespace VanTuongDuy_2280600501.Repositories
 
             _context.Categories.Remove(category);
             await _context.SaveChangesAsync();
+        }
+
+        public dynamic GetAllCategories()
+        {
+            throw new NotImplementedException();
         }
     }
 }
