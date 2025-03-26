@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -36,6 +37,7 @@ namespace VanTuongDuy_2280600501.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Add(Product product)
         {
             if (ModelState.IsValid)
@@ -47,7 +49,7 @@ namespace VanTuongDuy_2280600501.Controllers
             ViewBag.Categories = new SelectList(categories, "Id", "Name");
             return View(product);
         }
-
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Display(int id)
         {
             Console.WriteLine($"ID nhận được: {id}");
@@ -65,6 +67,7 @@ namespace VanTuongDuy_2280600501.Controllers
             return View(product);
         }
         //
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Update(int id)
         {
             Console.WriteLine($"ID nhận được: {id}");
@@ -84,6 +87,7 @@ namespace VanTuongDuy_2280600501.Controllers
             return View(product);
         }
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Update(int id, Product product)
         {
             Console.WriteLine(id);
@@ -98,7 +102,7 @@ namespace VanTuongDuy_2280600501.Controllers
             }
             return View(product);
         }
-
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             var product = await _productRepository.GetByIdAsync(id);
@@ -109,6 +113,7 @@ namespace VanTuongDuy_2280600501.Controllers
             return View(product);
         }
         [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             await _productRepository.DeleteAsync(id);
