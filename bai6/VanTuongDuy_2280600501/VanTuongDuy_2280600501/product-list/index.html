@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh sách sản phẩm</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-4">
+        <h1>Danh sách sản phẩm</h1>
+        <div id="danhSachSanPham" class="row row-cols-1 row-cols-md-3 g-4"></div> <!-- Kiểm tra ID -->
+    </div>
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <h2>Sửa sản phẩm</h2>
+            <input type="hidden" id="editId">
+            <input type="text" id="editName" placeholder="Tên sản phẩm">
+            <input type="text" id="editPrice" placeholder="Giá">
+            <textarea id="editDescription" placeholder="Mô tả"></textarea>
+            <button onclick="updateProduct()">Cập nhật</button>
+            <button onclick="closeEditModal()">Hủy</button>
+        </div>
+    </div>
+    <h2>Thêm sản phẩm</h2>
+    <div class="row">
+        <div class="col-md-3">
+            <input type="text" id="newName" class="form-control" placeholder="Tên sản phẩm">
+        </div>
+        <div class="col-md-2">
+            <input type="text" id="newPrice" class="form-control" placeholder="Giá">
+        </div>
+        <div class="col-md-4">
+            <textarea id="newDescription" class="form-control" placeholder="Mô tả"></textarea>
+        </div>
+        <div class="col-md-2">
+            <button class="btn btn-primary" onclick="addProduct()">Thêm sản phẩm</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
